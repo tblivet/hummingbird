@@ -79,6 +79,17 @@ const useQuantityInput: Theme.QuantityInput.Function = (
 
 const isValidInputNum = (inputNum: number) => !Number.isNaN(inputNum) && Number.isInteger(inputNum);
 
+const switchDisabledCheckoutButton = (checkoutButton: HTMLButtonElement, disabled: boolean): void => {
+  if (!checkoutButton) return;
+  if (disabled) {
+    checkoutButton.setAttribute('disabled', '');
+    checkoutButton.classList.add('disabled');
+  } else {
+    checkoutButton.removeAttribute('disabled');
+    checkoutButton.classList.remove('disabled');
+  }
+};
+
 const changeQuantity = (qtyInput: HTMLInputElement, change: number, keyboard = false) => {
   const {mode} = qtyInput.dataset;
 
@@ -88,6 +99,30 @@ const changeQuantity = (qtyInput: HTMLInputElement, change: number, keyboard = f
     const min = (qtyInput.dataset.updateUrl === undefined) ? Number(qtyInput.getAttribute('min')) : 0;
     const newValue = Math.max(currentValue + change, min);
     qtyInput.value = String(isValidInputNum(newValue) ? newValue : baseValue);
+  }
+
+  if (qtyInput.dataset.updateUrl === undefined) {
+    const {idProduct} = qtyInput.dataset;
+
+    if (idProduct !== undefined) {
+      const checkoutButton = document.querySelector(
+        `button[data-button-action="add-to-cart"][data-id-product="${idProduct}"]`,
+      ) as HTMLButtonElement;
+
+      const max = qtyInput.getAttribute('max') ? Number(qtyInput.getAttribute('max')) : null;
+
+      if (max && Number(qtyInput.value) > max) {
+        const {quantityErrorMessage} = qtyInput.dataset;
+
+        if (quantityErrorMessage) {
+          useToast(quantityErrorMessage, {type: 'danger', autohide: false}).show();
+        }
+
+        switchDisabledCheckoutButton(checkoutButton, true);
+      } else {
+        switchDisabledCheckoutButton(checkoutButton, false);
+      }
+    }
   }
 };
 
