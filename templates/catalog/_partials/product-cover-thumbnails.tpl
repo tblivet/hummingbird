@@ -24,7 +24,7 @@
 
         {block name='product_cover'}
           {foreach from=$product.images item=image key=key name=productImages}
-            <div class="carousel-item{if $image.id_image == $product.default_image.id_image} active{/if}">
+            <div class="carousel-item{if $image.id_image == $product.default_image.id_image} active{/if}" style="height: {$image.bySize.product_main.height}px">
               <picture>
                 {if isset($image.bySize.default_md.sources.avif)}
                   <source 
@@ -75,7 +75,7 @@
         <ul class="thumbnails__list row g-2">
           {foreach from=$product.images item=image key=key}
             <li
-              class="thumbnail js-thumb-container{if $image.id_image == $product.default_image.id_image} active{/if} col-3 col-md-2"
+              class="thumbnail js-thumb-container{if $image.id_image == $product.default_image.id_image} active {/if} col-3 col-md-2 top-{$image.bySize.product_main.height}"
               data-bs-target="#product-images"
               data-bs-slide-to="{$key}"
               {if $image.id_image == $product.default_image.id_image}

@@ -8,7 +8,6 @@ $component-name: carousel;
   & &-item {
     align-items: center;
     justify-content: center;
-    height: 100%;
 
     &.active {
       display: flex;
@@ -98,5 +97,11 @@ $component-name: carousel;
 
   & &-control-next {
     right: 3rem;
+  }
+
+  & &-item-next,
+  &-item-prev,
+  &-item.active {
+    display: flex;
   }
 }
