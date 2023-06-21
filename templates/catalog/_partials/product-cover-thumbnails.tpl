@@ -75,7 +75,7 @@
         <ul class="thumbnails__list row g-2">
           {foreach from=$product.images item=image key=key}
             <li
-              class="thumbnail js-thumb-container{if $image.id_image == $product.default_image.id_image} active {/if} col-3 col-md-2 top-{$image.bySize.product_main.height}"
+              class="thumbnail js-thumb-container{if $image.id_image == $product.default_image.id_image} active {/if} col-3 col-md-2"
               data-bs-target="#product-images"
               data-bs-slide-to="{$key}"
               {if $image.id_image == $product.default_image.id_image}
