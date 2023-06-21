@@ -9,10 +9,6 @@ $component-name: carousel;
     align-items: center;
     justify-content: center;
 
-    &.active {
-      display: flex;
-    }
-
     img {
       width: 100%;
       object-fit: cover;
@@ -97,11 +93,5 @@ $component-name: carousel;
 
   & &-control-next {
     right: 3rem;
-  }
-
-  & &-item-next,
-  &-item-prev,
-  &-item.active {
-    display: flex;
   }
 }
