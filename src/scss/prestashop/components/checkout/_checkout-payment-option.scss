@@ -5,6 +5,37 @@ $component-name: payment-option;
     padding-block-start: 1rem;
   }
 
+  &__form-check {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0;
+  }
+
+  &__input {
+    float: none;
+    margin: 0;
+    flex-shrink: 0;
+  }
+
+  &__label {
+    flex-wrap: wrap;
+    flex-shrink: 1;
+    line-height: 1.5;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+  }
+
+  &__logo {
+    max-width: 6rem;
+    height: auto;
+    flex-shrink: 0;
+    padding: 0.25rem;
+    border-radius: var(--bs-border-radius-sm);
+    border: 1px solid var(--bs-border-color);
+  }
+
   /* Generic styles for information list */
   dl {
     display: grid;

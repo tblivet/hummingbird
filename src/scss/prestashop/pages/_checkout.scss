@@ -105,6 +105,18 @@ $step-name: (
 }
 
 /* Payment */
+##{map-get($step-name, payment)} {
+  .js-payment-binary {
+    margin-block: 0 !important;
+
+    &.disabled,
+    &[disabled] {
+      opacity: 0.65;
+      pointer-events: none;
+    }
+  }
+}
+
 .#{map-get($component-name, payment-options)} {
   &__list {
     display: grid;

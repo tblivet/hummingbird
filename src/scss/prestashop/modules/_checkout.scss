@@ -1,0 +1,117 @@
+/* stylelint-disable */
+
+// PayPal Pay Later Banner
+.paypal-pay-later-banner {
+  > [id^="zoid"] {
+    max-width: 100% !important;
+  }
+}
+
+.page-product,
+.page-cart,
+.page-order {
+  .paypal-pay-later-banner {
+    margin-block: 0 1rem !important;
+  }
+
+  @include media-breakpoint-up(lg) {
+    .paypal-pay-later-banner {
+      margin-block: 0 2rem !important;
+    }
+  }
+}
+
+// PayPal Pay Later Message
+.paypal-pay-later-message {
+  margin-block: 0 !important;
+}
+
+// PayPal Checkout Express Button
+#ps-checkout-express-button {
+  > [id^="zoid"] {
+    z-index: 0;
+    position: relative;
+  }
+}
+
+// Order Page Specific Styles
+.page-order {
+  .nav-inline {
+    display: none;
+  }
+
+  .payment-option {
+    &__label {
+      display: flex !important;
+      line-height: 1.5 !important;
+    }
+  }
+  
+  .js-payment-ps_checkout {
+    margin-block: 0 !important;
+    
+    [id^="zoid"] {
+      display: block !important;
+      min-width: 20rem !important;
+    }
+  }
+
+  #ps-checkout-express-button {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+    margin-block-end: 1rem;
+
+    > [id^="zoid"] {
+      float: none !important;
+      flex-shrink: 1 !important;
+      margin: 0 !important;
+      width: calc(50% - 0.25rem) !important;
+      max-width: 100% !important;
+    }
+  }
+
+  @include media-breakpoint-down(md) {
+    .js-payment-ps_checkout {
+      width: 100% !important;
+    }
+
+    #ps-checkout-express-button {
+      > [id^="zoid"] {
+        width: 100% !important;
+      }
+    }
+  }
+
+  @include media-breakpoint-down(sm) {
+    .js-payment-ps_checkout {
+      [id^="zoid"] {
+        min-width: 100% !important;
+      }
+    }
+  }
+}
+
+// Product Page Specific Styles
+.page-product {
+  #ps-checkout-express-button {
+    display: grid;
+    gap: 0.5rem;
+    margin-block-start: 1.25rem;
+
+    > [id^="zoid"] {
+      z-index: 0;
+      position: relative;
+      width: 100% !important;
+      margin-block-start: 0 !important;
+    }
+  }
+
+  @include media-breakpoint-up(xl) {
+    #ps-checkout-express-button {
+      margin-block-start: 2rem;
+    }
+  }
+}
