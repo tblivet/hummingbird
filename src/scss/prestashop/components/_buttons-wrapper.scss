@@ -2,11 +2,11 @@ $component-name: buttons-wrapper;
 
 .#{$component-name} {
   display: flex;
-  align-items: center;
   flex-direction: column;
   flex-wrap: wrap;
   row-gap: 0.5rem;
   column-gap: 1rem;
+  align-items: center;
 
   .btn {
     width: 100%;

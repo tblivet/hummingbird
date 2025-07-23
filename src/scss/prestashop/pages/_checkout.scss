@@ -107,12 +107,13 @@ $step-name: (
 /* Payment */
 ##{map-get($step-name, payment)} {
   .js-payment-binary {
+    /* stylelint-disable-next-line */
     margin-block: 0 !important;
 
     &.disabled,
     &[disabled] {
-      opacity: 0.65;
       pointer-events: none;
+      opacity: 0.65;
     }
   }
 }
