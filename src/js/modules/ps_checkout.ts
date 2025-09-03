@@ -1,18 +1,16 @@
-// Extend the global window object with ps_checkout
-type PSCheckoutGlobals = typeof window & {
+// Extend the global Window interface with ps_checkout
+interface Window {
   ps_checkout: {
     selectors?: Record<string, string>;
     [key: string]: unknown;
   };
-};
-
-declare const window: PSCheckoutGlobals;
+}
 
 // Initialize ps_checkout if needed
-(window as PSCheckoutGlobals).ps_checkout = (window as PSCheckoutGlobals).ps_checkout || {};
+window.ps_checkout = window.ps_checkout || {};
 
 // Define selectors
-(window as PSCheckoutGlobals).ps_checkout.selectors = {
+window.ps_checkout.selectors = {
   // Express Checkout
   EXPRESS_CHECKOUT_CONTAINER_PRODUCT_PAGE: '[data-ps-target="product-minimal-quantity"]',
   EXPRESS_CHECKOUT_CONTAINER_CART_PAGE: '[data-ps-target="cart-detailed-actions"]',
