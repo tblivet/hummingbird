@@ -1,33 +1,48 @@
-/**
- * For the full copyright and license information, please view the LICENSE
- * file that was distributed with this source code.
- */
-
-import { defineConfig } from "vite";
-import { resolve } from "path";
-import fs from "fs";
-import rtlTransformPlugin from "./vite/rtlTransformPlugin";
+import { defineConfig } from 'vite';
+import { resolve } from 'path';
+import fs from 'fs';
+import rtlTransformPlugin from './vite/rtlTransformPlugin';
 
 const dotenv = (await import('dotenv')).default;
-
-const envFilePath = './.env';
-if (fs.existsSync(envFilePath)) {
-  dotenv.config({ path: envFilePath });
-}
+if (fs.existsSync('./.env')) dotenv.config({ path: './.env' });
 
 const {
-  PORT: port = 3000,
-  PUBLIC_PATH: publicPath = '/themes/hummingbird/assets/',
-  SERVER_ADDRESS: serverAddress = 'localhost',
-  SITE_URL: siteURL = 'http://localhost',
+  VITE_PORT = 3000, // Vite dev server port
+  HOST = 'localhost', // bind address for Vite
+  PS_HOST = 'http://localhost:8887', // PrestaShop origin
+  VITE_HOST = 'http://localhost:3000', // public URL of Vite
+  PUBLIC_PATH = '/themes/hummingbird/assets/', // where your theme assets live
 } = process.env;
 
-export default defineConfig(({ command, mode }) => {
+export default defineConfig(({ mode }) => {
   const isDev = mode === 'development';
 
   return {
     root: resolve(__dirname, 'src'),
-    base: isDev ? publicPath : './',
+    base: isDev ? PUBLIC_PATH : './',
+
+    server: isDev ? {
+      host: HOST,
+      port: VITE_PORT,
+      origin: VITE_HOST,
+
+      // ✅ HMR must advertise a hostname the browser can reach
+      hmr: {
+        host: HOST,
+        port: VITE_PORT,
+        protocol: 'ws',
+        overlay: true,
+      },
+
+      // ✅ Serve Vite assets directly, proxy all other requests to PrestaShop
+      proxy: {
+        '^/(?!themes/hummingbird/assets/|@vite/|@fs/|@id/|node_modules/).*': {
+          target: PS_HOST,
+          changeOrigin: true,
+          secure: false,
+        },
+      },
+    } : undefined,
 
     build: {
       outDir: resolve(__dirname, 'assets'),
@@ -35,46 +50,26 @@ export default defineConfig(({ command, mode }) => {
       emptyOutDir: true,
       rollupOptions: {
         input: {
-          // TS entry
           script: resolve(__dirname, 'src/js/theme.ts'),
-          // Scss entries
           error: resolve(__dirname, 'src/scss/error.scss'),
           rtl: resolve(__dirname, 'src/scss/rtl.scss'),
           theme: resolve(__dirname, 'src/scss/theme.scss'),
-          // Images
           ...Object.fromEntries(
             fs.readdirSync(resolve(__dirname, 'src/img'))
-              .filter(file => /\.(png|jpe?g|svg|gif|tiff|bmp|ico)$/i.test(file))
-              .map(file => [
-                `img-${file.split('.')[0]}`,
-                resolve(__dirname, `src/img/${file}`)
-              ])
+              .filter(f => /\.(png|jpe?g|svg|gif|tiff|bmp|ico)$/i.test(f))
+              .map(f => [`img-${f.split('.')[0]}`, resolve(__dirname, `src/img/${f}`)])
           ),
         },
         output: {
-          entryFileNames: (chunkInfo) => {
-            if (chunkInfo.name === 'script') {
-              return 'js/theme.js'
-            }
-            return 'js/[name].js'
-          },
-          assetFileNames: (assetInfo) => {
-            const info = assetInfo.name.split('.');
-            const extension = info[info.length - 1];
-
-            if (/png|jpe?g|svg|gif|tiff|bmp|ico/i.test(extension)) {
-              return `img/[name][extname]`;
-            }
-            if (/woff2?|eot|ttf|otf/i.test(extension)) {
-              return `fonts/[name]-[hash][extname]`;
-            }
-            if (extension === 'css') {
-              return 'css/[name].css';
-            }
+          entryFileNames: (c) => (c.name === 'script' ? 'js/theme.js' : 'js/[name].js'),
+          assetFileNames: (a) => {
+            const ext = a.name.split('.').pop() || '';
+            if (/png|jpe?g|svg|gif|tiff|bmp|ico/i.test(ext)) return 'img/[name][extname]';
+            if (/woff2?|eot|ttf|otf/i.test(ext)) return 'fonts/[name]-[hash][extname]';
+            if (ext === 'css') return 'css/[name].css';
           }
-        },
-        external: [],
-      },
+        }
+      }
     },
 
     css: {
@@ -92,11 +87,9 @@ export default defineConfig(({ command, mode }) => {
         '@services': resolve(__dirname, 'src/js/services'),
         '@constants': resolve(__dirname, 'src/js/constants'),
         '@helpers': resolve(__dirname, 'src/js/helpers'),
-      },
+      }
     },
 
-    plugins: [
-      rtlTransformPlugin(),
-    ],
-  }
+    plugins: [rtlTransformPlugin()],
+  };
 });

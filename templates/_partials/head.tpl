@@ -65,6 +65,12 @@
   <link rel="shortcut icon" type="image/x-icon" href="{$shop.favicon}?{$shop.favicon_update_time}">
 {/block}
 
+{block name='vite_development'}
+  {if {env key="VITE_ENV"} == "development"}
+    <script type="module" src="{env key="VITE_DEV"}"></script>
+  {/if}
+{/block}
+
 {block name='stylesheets'}
   {include file='_partials/stylesheets.tpl' stylesheets=$stylesheets}
 {/block}

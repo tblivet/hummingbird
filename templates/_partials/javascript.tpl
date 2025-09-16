@@ -2,9 +2,17 @@
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  *}
-{foreach $javascript.external as $js}
-  <script type="text/javascript" src="{$js.uri}" {$js.attribute}></script>
-{/foreach}
+{if {env key="VITE_ENV"} == "development"}
+  {foreach $javascript.external as $js}
+    {if isset($js.id) && $js.id != 'theme-main'}
+      <script type="text/javascript" src="{$js.uri}" {$js.attribute} defer></script>
+    {/if}
+  {/foreach}
+{else}
+  {foreach $javascript.external as $js}
+    <script type="text/javascript" src="{$js.uri}" {$js.attribute} defer></script>
+  {/foreach}
+{/if}
 
 {foreach $javascript.inline as $js}
   <script type="text/javascript">
