@@ -5,7 +5,7 @@
 
 {if isset($notifications)}
 <div id="notifications">
-  <div class="container">
+  <div class="container" data-ps-target="notifications">
     {if $notifications.error}
       {block name='notifications_error'}
         <div class="alert alert-danger alert-dismissible" role="alert" tabindex="0">

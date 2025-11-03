@@ -33,8 +33,9 @@
 
             <label class="payment-option__label form-check-label" for="{$option.id}">
               {if $option.logo}
-                <img class="img-fluid" src="{$option.logo}" loading="lazy">
+                <img class="img-fluid payment-option__logo" src="{$option.logo}" loading="lazy">
               {/if}
+
               {$option.call_to_action_text}
             </label>
           </div>
@@ -132,13 +133,13 @@
     </article>
   {/if}
 
-  <div class="buttons-wrapper buttons-wrapper--split buttons-wrapper--invert-mobile mt-3">
+  <div class="buttons-wrapper buttons-wrapper--split buttons-wrapper--invert-mobile buttons-wrapper--payment-confirmation mt-3">
     <button class="btn btn-outline-primary js-back" data-step="checkout-delivery-step">
       <div class="material-icons rtl-flip" aria-hidden="true">&#xE5C4;</div>
       {l s='Back to Shipping' d='Shop.Theme.Actions'}
     </button>
 
-    <div id="payment-confirmation" class="js-payment-confirmation">
+    <div id="payment-confirmation" class="payment-confirmation js-payment-confirmation">
       <div class="ps-shown-by-js">
         <button type="submit" class="btn btn-primary {if !$selected_payment_option} disabled{/if}">
           {l s='Place Order' d='Shop.Theme.Checkout'}
@@ -152,7 +153,8 @@
         {/if}
       </div>
     </div>
+
+    {hook h='displayPaymentByBinaries'}
   </div>
 
-  {hook h='displayPaymentByBinaries'}
 {/block}

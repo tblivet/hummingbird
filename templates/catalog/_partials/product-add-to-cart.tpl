@@ -3,7 +3,7 @@
  * file that was distributed with this source code.
  *}
 {if !$configuration.is_catalog}
-  <div class="product__add-to-cart-container product-add-to-cart js-product-add-to-cart">
+  <div class="product__add-to-cart-container product-add-to-cart js-product-add-to-cart" data-ps-target="product-add-to-cart">
     {block name='product_availability'}
       <div
         id="product-availability"
@@ -60,47 +60,50 @@
       </div>
     {/block}
 
-    {block name='product_quantity'}
-      <div class="product__actions-qty-add">
-        <div class="product-actions__quantity product__quantity quantity-button js-quantity-button">
-          {include file='components/qty-input.tpl'
-            attributes=[
-              "id" => "quantity_wanted",
-              "class" => "form-control js-quantity-wanted",
-              "value" => "{$product.minimal_quantity}",
-              "min" => "{$product.minimal_quantity}"
-            ]
-          }
-        </div>
+    <div data-ps-target="product-quantity-add-actions">
+      {block name='product_quantity'}
+        <div class="product__actions-qty-add">
+          <div class="product-actions__quantity product__quantity quantity-button js-quantity-button">
+            {include file='components/qty-input.tpl'
+              attributes=[
+                "id" => "quantity_wanted",
+                "class" => "form-control js-quantity-wanted",
+                "value" => "{$product.minimal_quantity}",
+                "min" => "{$product.minimal_quantity}"
+              ]
+            }
+          </div>
 
-        <div class="product__add-to-cart add">
-          <button
-            class="product__add-to-cart-button btn btn-primary"
-            data-button-action="add-to-cart"
-            type="submit"
-            {if !$product.add_to_cart_url}
-              aria-disabled="true"
-              disabled
-            {/if}
-            data-ps-ref="add-to-cart"
-            aria-label="{l s='Add to cart %product_name%' sprintf=['%product_name%' => $product.name] d='Shop.Theme.Actions'}"
-            title="{l s='Add to cart %product_name%' sprintf=['%product_name%' => $product.name] d='Shop.Theme.Actions'}"
-          >
-            <i class="material-icons" aria-hidden="true">&#xE547;</i>
-            {l s='Add to cart' d='Shop.Theme.Actions'}
-          </button>
-        </div>
+          <div class="product__add-to-cart add">
+            <button
+              class="product__add-to-cart-button btn btn-primary add-to-cart"
+              data-button-action="add-to-cart"
+              type="submit"
+              {if !$product.add_to_cart_url}
+                aria-disabled="true"
+                disabled
+              {/if}
+              data-ps-ref="add-to-cart"
+              aria-label="{l s='Add to cart %product_name%' sprintf=['%product_name%' => $product.name] d='Shop.Theme.Actions'}"
+              title="{l s='Add to cart %product_name%' sprintf=['%product_name%' => $product.name] d='Shop.Theme.Actions'}"
+            >
+              <i class="material-icons" aria-hidden="true">&#xE547;</i>
+              {l s='Add to cart' d='Shop.Theme.Actions'}
+            </button>
+          </div>
 
-        {capture name='product_actions'}{hook h='displayProductActions' product=$product}{/capture}
-        {if $smarty.capture.product_actions}
-          {$smarty.capture.product_actions nofilter}
-        {/if}
-      </div>
-    {/block}
+          {capture name='product_actions'}{hook h='displayProductActions' product=$product}{/capture}
+          {if $smarty.capture.product_actions}
+            {$smarty.capture.product_actions nofilter}
+          {/if}
+        </div>
+      {/block}
+    </div>
 
     {block name='product_minimal_quantity'}
       <div
         class="product__minimal-quantity product-minimal-quantity js-product-minimal-quantity"
+        data-ps-target="product-minimal-quantity"
         {if $product.minimal_quantity <= 1}
           hidden
         {/if}

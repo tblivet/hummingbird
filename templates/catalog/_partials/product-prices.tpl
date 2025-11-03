@@ -5,7 +5,7 @@
 {if $product.show_price}
   <div class="product__prices js-product-prices">
     {block name='product_price'}
-      <div class="product__prices-block">
+      <div class="product__prices-block" data-ps-target="product-prices-block">
         {if $product.has_discount}
           <div class="product__discount-price product__prices-inline product__prices-inline--small-gap">
             {hook h='displayProductPriceBlock' product=$product type="old_price"}

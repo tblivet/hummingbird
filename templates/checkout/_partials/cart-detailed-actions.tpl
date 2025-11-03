@@ -11,7 +11,7 @@
       {/if}
   {/foreach}
 
-  <div class="cart-summary__actions checkout js-cart-detailed-actions">
+  <div class="cart-summary__actions checkout js-cart-detailed-actions" data-ps-target="cart-detailed-actions">
     {if $cart.minimalPurchaseRequired}
       <div class="alert alert-warning" role="alert">
         {$cart.minimalPurchaseRequired}

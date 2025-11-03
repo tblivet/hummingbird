@@ -1,5 +1,6 @@
 <div
   class="js-product-details"
+  id="product-details"
   data-product="{$product.embedded_attributes|json_encode}"
 >
   <div class="accordion-item" id="product_details">

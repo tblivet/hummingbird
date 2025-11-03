@@ -32,7 +32,7 @@
       <hr>
     </div>
 
-    <div class="step__content">
+    <div class="step__content" data-ps-target="step-content">
       {block name='step_content'}DUMMY STEP CONTENT{/block}
     </div>
   </section>

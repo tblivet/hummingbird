@@ -6,6 +6,7 @@ $component-name: buttons-wrapper;
   flex-wrap: wrap;
   row-gap: 0.5rem;
   column-gap: 1rem;
+  align-items: center;
 
   .btn {
     width: 100%;
@@ -27,9 +28,19 @@ $component-name: buttons-wrapper;
     }
   }
 
+  &--payment-confirmation {
+    .payment-confirmation {
+      width: 100%;
+    }
+  }
+
   @include media-breakpoint-up(md) {
     display: flex;
     flex-direction: row;
+
+    .btn {
+      width: auto;
+    }
 
     &--end {
       justify-content: flex-end;
@@ -43,8 +54,10 @@ $component-name: buttons-wrapper;
       flex-direction: inherit;
     }
 
-    .btn {
-      width: auto;
+    &--payment-confirmation {
+      .payment-confirmation {
+        width: auto;
+      }
     }
   }
 }
