@@ -111,7 +111,7 @@ export const initSliders = () => {
           min,
           max,
         },
-      }, true);
+      }, false);
     }
 
     // Remove tooltips:
@@ -128,7 +128,7 @@ export const initSliders = () => {
 
       const parentFacet = slider.target.closest(Theme.selectors.facetedsearch.filterSlider) as HTMLElement;
       const showValues = parentFacet.querySelector(Theme.selectors.facetedsearch.rangeValues) as HTMLElement;
-      showValues.innerHTML = formattedValues.join(' - ');
+      showValues.textContent = formattedValues.join(' - ');
     });
   });
 };
