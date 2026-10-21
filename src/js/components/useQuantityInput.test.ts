@@ -150,6 +150,25 @@ describe('useQuantityInput', () => {
       expect(window.fetch).toHaveBeenCalledTimes(0);
       expect(qtyInput.value).toEqual(qtyInput.getAttribute('value'));
     });
+
+    it('should click the remove button when "0" is confirmed with Enter', async () => {
+      const qtyInput = getHTMLElement<HTMLInputElement>('input');
+      resetQtyInputValueInDOM(qtyInput, '4', '4');
+
+      const mockedFetch = jest.fn();
+      window.fetch = mockedFetch;
+      const removeButton = getHTMLElement<HTMLButtonElement>(selectorsMap.cart.removeFromCart);
+      const removeClickListener = jest.fn();
+      removeButton.addEventListener('click', removeClickListener);
+
+      typeValue(qtyInput, '0');
+      qtyInput.dispatchEvent(new KeyboardEvent('keyup', {key: 'Enter'}));
+      await debounceTimeout();
+
+      expect(qtyInput.value).toEqual('0');
+      expect(removeClickListener).toHaveBeenCalledTimes(1);
+      expect(mockedFetch).toHaveBeenCalledTimes(0);
+    });
   });
 
   describe('without update URL', () => {
